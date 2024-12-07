@@ -1,0 +1,7 @@
+---
+- name: Install Tomcat
+  hosts: assignment
+  become: yes
+  roles:
+    - f1
+

@@ -1,0 +1,41 @@
+---
+- name: performing the action
+  hosts: assignment
+  become: yes
+  # become_user: root
+  tasks:
+    - name: create a directory
+      ansible.builtin.file:
+        path: /home/a_worker1/d1
+        state: directory
+        mode: 0700
+        owner: a_worker1
+        group: a_worker1
+    - name: Installing the httpd
+      ansible.builtin.yum:
+        name: httpd
+        state: present
+    - name: Create a file
+      ansible.builtin.file:
+        path: /home/a_worker1/file1
+        state: touch
+        mode: 0777
+    - name: service httpd
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: yes
+    - name: permission to file
+      ansible.builtin.file:
+        path: /home/a_worker1/d1
+        mode: 777
+    - name: creating the file
+      ansible.builtin.file:
+        path: /home/a_worker1/d1/d2
+        state: directory
+        mode: 777
+    - name: create a file in d2
+      ansible.builtin.file:
+        path: /home/a_worker1/d1/d2/file2
+        state: touch
+        mode: 777

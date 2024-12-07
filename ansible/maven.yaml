@@ -1,0 +1,11 @@
+---
+- name: Install Maven on a_worker1
+  hosts: assignment  # Use the group 'assignment' from the inventory file
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install Maven using Ansible
+      yum:
+        name: maven
+        state: absent
+        

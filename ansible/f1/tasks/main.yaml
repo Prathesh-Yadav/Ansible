@@ -1,0 +1,30 @@
+---
+- name: Download Tomcat tar.gz
+  ansible.builtin.get_url:
+    url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.33/bin/apache-tomcat-10.1.33.tar.gz
+    dest: /home/a_worker1/apache-tomcat-10.1.33.tar.gz
+    mode: '0644'
+
+- name: Verify Tomcat tar.gz downloaded
+  ansible.builtin.stat:
+    path: /home/a_worker1/apache-tomcat-10.1.33.tar.gz
+  register: tar_gz_stat
+
+- name: Show download status
+  debug:
+    msg: "File downloaded: {{ tar_gz_stat.stat.exists }}"
+
+- name: Extract Tomcat tar.gz
+  ansible.builtin.unarchive:
+    src: /home/a_worker1/apache-tomcat-10.1.33.tar.gz
+    dest: /home/a_worker1/
+    remote_src: yes
+  when: tar_gz_stat.stat.exists
+
+- name: Set ownership for Tomcat files
+  ansible.builtin.file:
+    path: "/home/a_worker1/apache-tomcat-10.1.33"
+    owner: a_worker1
+    group: a_worker1
+    recurse: yes
+

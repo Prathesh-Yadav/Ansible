@@ -1,0 +1,15 @@
+- name: Manage directories and packages
+  hosts: assignment
+  become: yes
+  tasks:
+    - name: create multiple directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: a_worker1
+        group: a_worker1
+        mode: '0755'
+      with_items:
+        - '/home/a_worker1/a1'
+        - '/home/a_worker1/a2'
+
